@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class List{
+public class List  implements Comparable<List>{
     Main main;
     JFrame listWindow;
     ArrayList<List> mainList;
@@ -168,17 +168,24 @@ public class List{
 
     public void print() { // to print the lists
         if (mainList != null) {
-            String msg = "";
-            for (int j = 0; j < label.size(); j++) {
-                msg += label.get(j);
-                msg += " ";
+            for(int i=0;i<mainList.size();i++) {
+                String msg = "";
+                for (int j = 0; j < mainList.get(i).label.size(); j++) {
+                    msg += mainList.get(i).label.get(j);
+                    msg += " ";
+                }
+                System.out.println(mainList.get(i).getInfo() + " " + mainList.get(i).getDate() +
+                        " " + mainList.get(i).getTime() + " " + mainList.get(i).getLevel() + " " + msg);
             }
-            System.out.println(getInfo() + " " + getDate() +
-                    " " + getTime() + " " + getLevel() + " " + msg);
         } else {
-            System.out.println("not found!!");
+            System.out.println("List is empty!!");
         }
         System.out.println("size of list:" + mainList.size());
+    }
+
+    @Override
+    public int compareTo(List o) {
+        return this.getDate().compareTo(o.getDate());
     }
 
 }
