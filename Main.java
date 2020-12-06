@@ -92,6 +92,15 @@ public class Main implements ActionListener {
         panel.setSize(800,600);
         window.add(panel);
     }
+    public void setColors(){
+        if(list.level == "High") {
+            color = Color.red;
+        }else if(list.level == "Middle") {
+            color = new Color(243, 163, 13, 255);
+        }else if(list.level == "Low") {
+            color = Color.yellow;
+        }
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -122,8 +131,9 @@ public class Main implements ActionListener {
                 list.print();
                 break;
             case "by date":
-                comparison.compareDate();
+                Collections.sort(list.mainList);
                 list.print();
+                comparison.rewriteCheckBoxes();
                 break;
             case "info":
                 info.createInfoWindow();
@@ -144,15 +154,15 @@ public class Main implements ActionListener {
                 break;
             case "high":
                 list.setLevel("High");
-                color = Color.red;
+                setColors();
                 break;
             case "middle":
                 list.setLevel("Middle");
-                color = new Color(243, 163, 13, 255);
+                setColors();
                 break;
             case "low":
                 list.setLevel("Low");
-                color = Color.yellow;
+                setColors();
                 break;
             case "label":
                 label.createLabelWindow();
