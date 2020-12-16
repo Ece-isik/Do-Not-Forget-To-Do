@@ -62,4 +62,13 @@ public class Level {
         levelWindow.add(middle);
         levelWindow.add(low);
     }
+     public void setValues(){ //to set the values of each level
+        if(list.level.equals("High")){
+            list.setValueOfLevel(1);
+        }else if(list.level.equals("Middle")){
+            list.setValueOfLevel(2);
+        }else if(list.level.equals("Low")){
+            list.setValueOfLevel(3);
+        }
+    }
 }
