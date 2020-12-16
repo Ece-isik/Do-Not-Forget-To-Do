@@ -17,15 +17,16 @@ public class List  implements Comparable<List>{
     LocalTime time;
     JDialog saveMessage, confirmMessage;
     ArrayList<JCheckBox> boxArr;
-    int y=0;
+    int y=0, valueOfLevel;
     JLabel iconLabel;
 
-    public List(String info, LocalDate date, LocalTime time, String level, ArrayList<String> label) {
+    public List(String info, LocalDate date, LocalTime time, String level, ArrayList<String> label, int valueOfLevel) {
         this.info = info;
         this.date = date;
         this.time = time;
         this.level = level;
         this.label = label;
+        this.valueOfLevel = valueOfLevel;
     }
 
     public List(Main main){
@@ -37,6 +38,7 @@ public class List  implements Comparable<List>{
         mainList = new ArrayList<>();
         label = new ArrayList<>();
         boxArr = new ArrayList<>();
+        valueOfLevel = 0;
     }
 
     public void createListWindow(){
@@ -79,7 +81,7 @@ public class List  implements Comparable<List>{
         listWindow.add(labelButton);
     }
     public void addOk(){ // adding ok icon
-        ImageIcon icon = new ImageIcon("C:\\Users\\pc\\Desktop\\tick1.png");
+        ImageIcon icon = new ImageIcon("C:\Users\pc\IdeaProjects\DoNotForgetToDo\src\com\company\tick1.png");
         iconLabel = new JLabel(icon);
         listWindow.add(iconLabel);
     }
@@ -90,16 +92,20 @@ public class List  implements Comparable<List>{
     }
 
     public void createList(){ // adding lists into arrayList
-        mainList.add(new List(getInfo(),getDate(),getTime(),getLevel(),getLabel()));
+        mainList.add(new List(getInfo(),getDate(),getTime(),getLevel(),getLabel(),getValueOfLevel()));
     }
 
     public void add(){ // to add check boxes for each list
             String labelText = "";
+        if(label.size()==0){
+            labelText += "No label";
+        }else {
             for (int i = 0; i < label.size(); i++) {
                 labelText += "#";
                 labelText += label.get(i);
                 labelText += " ";
             }
+        }
             JCheckBox box = new JCheckBox(getInfo() + " ||| " + getDate() + " & " + getTime() + " ||| " + labelText);
             box.setBackground(main.color);
             box.setFont(new java.awt.Font("Arial", Font.BOLD, 14));
@@ -165,17 +171,30 @@ public class List  implements Comparable<List>{
     public void setTime(LocalTime time) {
         this.time = time;
     }
+    
+    public int getValueOfLevel() {
+        return valueOfLevel;
+    }
+
+    public void setValueOfLevel(int valueOfLevel) {
+        this.valueOfLevel = valueOfLevel;
+    }
 
     public void print() { // to print the lists
         if (mainList != null) {
             for(int i=0;i<mainList.size();i++) {
                 String msg = "";
+                if(mainList.get(i).label.size()==0){
+                    msg += "No label";
+                }else {
                 for (int j = 0; j < mainList.get(i).label.size(); j++) {
                     msg += mainList.get(i).label.get(j);
                     msg += " ";
                 }
+                }
                 System.out.println(mainList.get(i).getInfo() + " " + mainList.get(i).getDate() +
-                        " " + mainList.get(i).getTime() + " " + mainList.get(i).getLevel() + " " + msg);
+                        " " + mainList.get(i).getTime() + " " + mainList.get(i).getLevel() + " " + msg +
+                        " " + mainList.get(i).getValueOfLevel());
             }
         } else {
             System.out.println("List is empty!!");
@@ -185,7 +204,8 @@ public class List  implements Comparable<List>{
 
     @Override
     public int compareTo(List o) {
-        return this.getDate().compareTo(o.getDate());
+
+       return this.getDate().atTime(getTime()).compareTo(o.getDate().atTime(o.getTime()));    
     }
 
 }
