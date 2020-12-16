@@ -13,7 +13,7 @@ public class Main implements ActionListener {
     Label label = new Label(this,list);
     Date_Time dateTime = new Date_Time(this,list);
     FileMenu file = new FileMenu(this,list);
-    Comparison comparison = new Comparison(this,list);
+    RewriteBoxes rewriteBoxes = new RewriteBoxes(this,list);
     JFrame window;
     JMenuBar menuBar;
     JMenu editMenu, sortMenu, helpMenu;
@@ -101,6 +101,13 @@ public class Main implements ActionListener {
             color = Color.yellow;
         }
     }
+    public void setNull(){ //to initialize the variables
+        list.info = "No info";
+        list.date = LocalDate.now();
+        list.time = LocalTime.now();
+        list.level = "No level";
+        list.label = new ArrayList<>();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -129,16 +136,23 @@ public class Main implements ActionListener {
                 list.listWindow.dispose();
                 list.createSaveMessage();
                 list.print();
+                setNull();
                 break;
             case "by date":
                 Collections.sort(list.mainList);
                 list.print();
-                comparison.rewriteCheckBoxes();
+                rewriteBoxes.rewriteCheckBoxes();
+                break;
+            case "by level":
+                Collections.sort(list.mainList, new CompareLevels());
+                list.print();
+                rewriteBoxes.rewriteCheckBoxes();
                 break;
             case "info":
                 info.createInfoWindow();
                 break;
             case "set title":
+                level.setValues();
                 list.addOk();
                 list.iconLabel.setBounds(270,100,50,20);
                 info.saveTitle();
